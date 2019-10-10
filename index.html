@@ -155,16 +155,24 @@
     <article id="post-UI绘制逻辑" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/10/10/UI绘制逻辑/">UI绘制逻辑</a>
+    </h1>
+  
+
+        
+        <a href="/2019/10/10/UI绘制逻辑/" class="archive-article-date">
+  	<time datetime="2019-10-10T08:09:55.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-10</time>
+</a>
+        
+      </header>
+    
     <div class="article-entry" itemprop="articleBody">
       
-        <hr>
-<p>title: UI绘制逻辑<br>date: 2019-10-10 16:09:55<br>tags:</p>
-<ul>
-<li>Hexo</li>
-<li>Markdown<br>##UI绘制逻辑</li>
-</ul>
-<p>###图像显示原理</p>
-<p>####CPU和GPU是做成什么的？<br>在了解图像显示原理之前，先看看CPU和GPU都做了什么内容。创建UIView后，显示部分由CALayer负责，CALayer有一个contents属性，就是我们最终要绘制到屏幕上的位图，如果我们创建的是UILabel，那么contents上最终要绘制就是“Hello”的位图,系统在合适的时候回调给我们一个drawRect的方法，然后我们可以在此基础上绘制一些我们想自定义绘制的内容，绘制好的这个位图，会经过Core Animation提交给GPU部分的OpenGL渲染管线，进行最终的位图的渲染以及文理的合成，最终显示到屏幕上。<br><img src="https://leoliuyt.github.io/2018/05/26/UI%E7%BB%98%E5%88%B6%E5%8E%9F%E7%90%86/display_sepereate.png" alt="图片"></p>
+        <h2 id="图像显示原理"><a href="#图像显示原理" class="headerlink" title="图像显示原理"></a>图像显示原理</h2><h4 id="CPU和GPU是做成什么的？"><a href="#CPU和GPU是做成什么的？" class="headerlink" title="CPU和GPU是做成什么的？"></a>CPU和GPU是做成什么的？</h4><p>在了解图像显示原理之前，先看看CPU和GPU都做了什么内容。创建UIView后，显示部分由CALayer负责，CALayer有一个contents属性，就是我们最终要绘制到屏幕上的位图，如果我们创建的是UILabel，那么contents上最终要绘制就是“Hello”的位图,系统在合适的时候回调给我们一个drawRect的方法，然后我们可以在此基础上绘制一些我们想自定义绘制的内容，绘制好的这个位图，会经过Core Animation提交给GPU部分的OpenGL渲染管线，进行最终的位图的渲染以及文理的合成，最终显示到屏幕上。<br><img src="https://leoliuyt.github.io/2018/05/26/UI%E7%BB%98%E5%88%B6%E5%8E%9F%E7%90%86/display_sepereate.png" alt="图片"></p>
 <ul>
 <li>CPU（中央处理器）的工作内容   <ul>
 <li>UI布局、文本计算</li>
@@ -186,10 +194,10 @@
 </ul>
 <p>讲一下图像的显示原理，从而进一步延伸到图像显示卡顿的问题以及优化方案。<br>CPU和GUP是通过总线连接起来的，通过CPU输出一个位图,经由总线传输在合适的时机传递给GPU，GPU获取到位图后，会进行图层渲染、纹理合成，将结果放到栈缓存区中，在由视频控制器根据VSyn信号，在指定时间之前在栈缓存区中提取屏幕需要显示的内容，最终在屏幕上面显示出来。</p>
 <p><img src="https://leoliuyt.github.io/2018/05/26/UI%E7%BB%98%E5%88%B6%E5%8E%9F%E7%90%86/display_principle.png" alt="图片"></p>
-<p>###为什么会出现UI卡顿和掉栈哪？<br>做过开发的一般都会知道页面滑动的流畅性是60FPS(每秒钟有60栈画面更新)，也就是一栈画面生成时间大约在16.7毫秒左右，在16.7毫秒内CPU和GPU需要生成共同生成一栈的数据，如果生成数据的时间大于16.7毫秒就会出现页面卡顿的现象。<br><img src="https://leoliuyt.github.io/2018/05/26/UI%E7%BB%98%E5%88%B6%E5%8E%9F%E7%90%86/frame_off.png" alt="图片"></p>
+<h3 id="为什么会出现UI卡顿和掉栈哪？"><a href="#为什么会出现UI卡顿和掉栈哪？" class="headerlink" title="为什么会出现UI卡顿和掉栈哪？"></a>为什么会出现UI卡顿和掉栈哪？</h3><p>做过开发的一般都会知道页面滑动的流畅性是60FPS(每秒钟有60栈画面更新)，也就是一栈画面生成时间大约在16.7毫秒左右，在16.7毫秒内CPU和GPU需要生成共同生成一栈的数据，如果生成数据的时间大于16.7毫秒就会出现页面卡顿的现象。<br><img src="https://leoliuyt.github.io/2018/05/26/UI%E7%BB%98%E5%88%B6%E5%8E%9F%E7%90%86/frame_off.png" alt="图片"></p>
 <p>如图所示在一个VSync信号到来后，系统图形服务会通过 CADisplayLink 等机制通知 App，app主线程在CPU中计算显示内容（内容如上所示），然后提交给GPU，GPU渲染完成后提交到栈缓存区中，等待下一个VSync信号到来时显示在屏幕上。由于机制原因（垂直机制），如果在一个VSync信号时间内，CPU或者GPU没有完成内容提交，则那一帧就会被丢弃，等待下一次机会再显示，而这时显示屏会保留之前的内容不变。这就是界面卡顿的原因。</p>
 <p>所以不管CPU还是GPU那个阻碍了显示流程，都会造成调栈现象。</p>
-<p>###优化方案<br>CPU：把以下操作放在子线程中</p>
+<h3 id="优化方案"><a href="#优化方案" class="headerlink" title="优化方案"></a>优化方案</h3><p>CPU：把以下操作放在子线程中</p>
 <ul>
 <li>对象创建、调整、销毁</li>
 <li>预排版（布局计算、文本计算、缓存高度等）</li>
@@ -210,17 +218,16 @@
 <li>是否涉及到昂贵的view或者效果？</li>
 <li>view的层次结构是否合理？</li>
 </ul>
-<p>###UIView绘制原理</p>
-<p><img src="https://leoliuyt.github.io/2018/05/26/UI%E7%BB%98%E5%88%B6%E5%8E%9F%E7%90%86/display_flow.png" alt="图片"></p>
+<h3 id="UIView绘制原理"><a href="#UIView绘制原理" class="headerlink" title="UIView绘制原理"></a>UIView绘制原理</h3><p><img src="https://leoliuyt.github.io/2018/05/26/UI%E7%BB%98%E5%88%B6%E5%8E%9F%E7%90%86/display_flow.png" alt="图片"></p>
 <p>当调用UIView的setNeedsDisplay方法时，会调用CALayer的同名方法setNeedsDisplay,这时并没有立即发生绘制，而只是相当于在当前layer打上了脏标记， 会在Runloop即将结束时才会调用[CALayer display],而这个方法的内部会判断是否实现了displayLayer这个方法，如果没有实现，那么走系统调用，如果实现了，就为我们异步绘制提供了入口。</p>
-<p>####系统绘制实现<br><img src="https://leoliuyt.github.io/2018/05/26/UI%E7%BB%98%E5%88%B6%E5%8E%9F%E7%90%86/system_display_new.png" alt></p>
-<p>####异步绘制实现<br>通过实现layer的代理方法displayLayer([self.layer.delegate displayLayer: ])</p>
+<h4 id="系统绘制实现"><a href="#系统绘制实现" class="headerlink" title="系统绘制实现"></a>系统绘制实现</h4><p><img src="https://leoliuyt.github.io/2018/05/26/UI%E7%BB%98%E5%88%B6%E5%8E%9F%E7%90%86/system_display_new.png" alt></p>
+<h4 id="异步绘制实现"><a href="#异步绘制实现" class="headerlink" title="异步绘制实现"></a>异步绘制实现</h4><p>通过实现layer的代理方法displayLayer([self.layer.delegate displayLayer: ])</p>
 <ul>
 <li>代理负责生成对应的bitmap</li>
 <li>设置该bitmap作为layer.contents属性的值</li>
 </ul>
 <p><img src="https://leoliuyt.github.io/2018/05/26/UI%E7%BB%98%E5%88%B6%E5%8E%9F%E7%90%86/asyn_display.png" alt></p>
-<p>###离屏渲染<br>On-Screen Rendering 意为当前屏幕渲染，指的是GPU的渲染操作是在当前用于显示的屏幕缓冲区中进行渲染操作</p>
+<h3 id="离屏渲染"><a href="#离屏渲染" class="headerlink" title="离屏渲染"></a>离屏渲染</h3><p>On-Screen Rendering 意为当前屏幕渲染，指的是GPU的渲染操作是在当前用于显示的屏幕缓冲区中进行渲染操作</p>
 <p>Off-Screen Rendering 意为离屏渲染，指的是GPU在当前屏幕缓冲区以外新开辟一个缓冲区进行渲染操作</p>
 <p>当设置某些UI视图的图层属性，如果标记为未合成之前不能用于显示，那么就会触发离屏渲染<br>触发离屏渲染的条件</p>
 <ul>
