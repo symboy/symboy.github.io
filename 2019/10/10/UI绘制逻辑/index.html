@@ -6,14 +6,14 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>UI绘制逻辑 | Hexo</title>
+  <title>Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="##UI绘制逻辑 ###图像显示原理 ####CPU和GPU是做成什么的？在了解图像显示原理之前，先看看CPU和GPU都做了什么内容。创建UIView后，显示部分由CALayer负责，CALayer有一个contents属性，就是我们最终要绘制到屏幕上的位图，如果我们创建的是UILabel，那么contents上最终要绘制就是“Hello”的位图,系统在合适的时候回调给我们一个drawRect的方">
+  <meta name="description" content="title: UI绘制逻辑date: 2019-10-10 16:09:55tags:  Hexo Markdown##UI绘制逻辑  ###图像显示原理 ####CPU和GPU是做成什么的？在了解图像显示原理之前，先看看CPU和GPU都做了什么内容。创建UIView后，显示部分由CALayer负责，CALayer有一个contents属性，就是我们最终要绘制到屏幕上的位图，如果我们创建的是UI">
 <meta property="og:type" content="article">
-<meta property="og:title" content="UI绘制逻辑">
+<meta property="og:title" content="Hexo">
 <meta property="og:url" content="http://yoursite.com/2019/10/10/UI绘制逻辑/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="##UI绘制逻辑 ###图像显示原理 ####CPU和GPU是做成什么的？在了解图像显示原理之前，先看看CPU和GPU都做了什么内容。创建UIView后，显示部分由CALayer负责，CALayer有一个contents属性，就是我们最终要绘制到屏幕上的位图，如果我们创建的是UILabel，那么contents上最终要绘制就是“Hello”的位图,系统在合适的时候回调给我们一个drawRect的方">
+<meta property="og:description" content="title: UI绘制逻辑date: 2019-10-10 16:09:55tags:  Hexo Markdown##UI绘制逻辑  ###图像显示原理 ####CPU和GPU是做成什么的？在了解图像显示原理之前，先看看CPU和GPU都做了什么内容。创建UIView后，显示部分由CALayer负责，CALayer有一个contents属性，就是我们最终要绘制到屏幕上的位图，如果我们创建的是UI">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="https://leoliuyt.github.io/2018/05/26/UI%E7%BB%98%E5%88%B6%E5%8E%9F%E7%90%86/display_sepereate.png">
 <meta property="og:image" content="https://leoliuyt.github.io/2018/05/26/UI%E7%BB%98%E5%88%B6%E5%8E%9F%E7%90%86/display_principle.png">
@@ -21,10 +21,10 @@
 <meta property="og:image" content="https://leoliuyt.github.io/2018/05/26/UI%E7%BB%98%E5%88%B6%E5%8E%9F%E7%90%86/display_flow.png">
 <meta property="og:image" content="https://leoliuyt.github.io/2018/05/26/UI%E7%BB%98%E5%88%B6%E5%8E%9F%E7%90%86/system_display_new.png">
 <meta property="og:image" content="https://leoliuyt.github.io/2018/05/26/UI%E7%BB%98%E5%88%B6%E5%8E%9F%E7%90%86/asyn_display.png">
-<meta property="og:updated_time" content="2019-10-10T08:16:21.166Z">
+<meta property="og:updated_time" content="2019-10-10T15:03:45.608Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="UI绘制逻辑">
-<meta name="twitter:description" content="##UI绘制逻辑 ###图像显示原理 ####CPU和GPU是做成什么的？在了解图像显示原理之前，先看看CPU和GPU都做了什么内容。创建UIView后，显示部分由CALayer负责，CALayer有一个contents属性，就是我们最终要绘制到屏幕上的位图，如果我们创建的是UILabel，那么contents上最终要绘制就是“Hello”的位图,系统在合适的时候回调给我们一个drawRect的方">
+<meta name="twitter:title" content="Hexo">
+<meta name="twitter:description" content="title: UI绘制逻辑date: 2019-10-10 16:09:55tags:  Hexo Markdown##UI绘制逻辑  ###图像显示原理 ####CPU和GPU是做成什么的？在了解图像显示原理之前，先看看CPU和GPU都做了什么内容。创建UIView后，显示部分由CALayer负责，CALayer有一个contents属性，就是我们最终要绘制到屏幕上的位图，如果我们创建的是UI">
 <meta name="twitter:image" content="https://leoliuyt.github.io/2018/05/26/UI%E7%BB%98%E5%88%B6%E5%8E%9F%E7%90%86/display_sepereate.png">
   
     <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
@@ -164,24 +164,14 @@
             <article id="post-UI绘制逻辑" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
-      <header class="article-header">
-        
-  
-    <h1 class="article-title" itemprop="name">
-      UI绘制逻辑
-    </h1>
-  
-
-        
-        <a href="/2019/10/10/UI绘制逻辑/" class="archive-article-date">
-  	<time datetime="2019-10-10T08:09:55.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-10</time>
-</a>
-        
-      </header>
-    
     <div class="article-entry" itemprop="articleBody">
       
-        <p>##UI绘制逻辑</p>
+        <hr>
+<p>title: UI绘制逻辑<br>date: 2019-10-10 16:09:55<br>tags:</p>
+<ul>
+<li>Hexo</li>
+<li>Markdown<br>##UI绘制逻辑</li>
+</ul>
 <p>###图像显示原理</p>
 <p>####CPU和GPU是做成什么的？<br>在了解图像显示原理之前，先看看CPU和GPU都做了什么内容。创建UIView后，显示部分由CALayer负责，CALayer有一个contents属性，就是我们最终要绘制到屏幕上的位图，如果我们创建的是UILabel，那么contents上最终要绘制就是“Hello”的位图,系统在合适的时候回调给我们一个drawRect的方法，然后我们可以在此基础上绘制一些我们想自定义绘制的内容，绘制好的这个位图，会经过Core Animation提交给GPU部分的OpenGL渲染管线，进行最终的位图的渲染以及文理的合成，最终显示到屏幕上。<br><img src="https://leoliuyt.github.io/2018/05/26/UI%E7%BB%98%E5%88%B6%E5%8E%9F%E7%90%86/display_sepereate.png" alt="图片"></p>
 <ul>
